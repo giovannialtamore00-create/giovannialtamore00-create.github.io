@@ -148,6 +148,7 @@ h1 .accent{color:var(--accent)}
 .screen.babylife{background:linear-gradient(135deg, #f2b5c4, #f7dfa5);}
 .screen.burd{background:linear-gradient(135deg, #3aa6a0, #1b3a6b);}
 .screen.housewalkers{background:linear-gradient(135deg, #5c4a72, #26222e);}
+.screen.mafia{background:linear-gradient(135deg, #8a1c1c, #1a1a1a); color:#eceef2;}
 .screen.tbd{background:var(--panel-edge); color:var(--fg-dim);}
 
 .cab-body{
@@ -191,6 +192,18 @@ h1 .accent{color:var(--accent)}
   margin-top:6px;
 }
 .cab.placeholder .cab-cta{color:var(--fg-dim); font-weight:normal;}
+
+.section-title{
+  font-family:var(--font-display);
+  font-size:14px;
+  letter-spacing:.06em;
+  margin:64px 0 8px;
+}
+.section-sub{
+  color:var(--fg-dim);
+  font-size:13px;
+  margin:0 0 20px;
+}
 
 footer{
   margin-top:72px;
@@ -312,6 +325,25 @@ footer{
         <div class="cab-cta">Not yet playable</div>
       </div>
     </div>
+  </div>
+
+  <h2 class="section-title">Guest</h2>
+  <p class="section-sub">Games by friends, hosted here.</p>
+
+  <div class="grid">
+    <a class="cab" href="https://how-to-kill-mafia.onrender.com/" aria-label="Play How to Kill: Mafia in your browser">
+      <div class="screen mafia">HOW TO KILL:<br>MAFIA</div>
+      <div class="cab-body">
+        <div class="cab-title">How to Kill: Mafia</div>
+        <div class="cab-desc">An online card game for 2–4 players. Build a squad of heroes, take down mafia bosses with a bounty on their heads, and use your faction's bonuses to get there first. The first visit may take up to a minute while the server wakes up.</div>
+        <div class="cab-meta">
+          <span class="tag">Prototype</span>
+          <span class="tag">Online multiplayer</span>
+          <span class="tag">Bots</span>
+        </div>
+        <div class="cab-cta">Play in your browser →</div>
+      </div>
+    </a>
   </div>
 
   <footer>
