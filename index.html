@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Platypus Games, Inc.</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&display=swap">
+<style>
+:root{
+  --bg:#121318;
+  --panel:#1c1e26;
+  --panel-edge:#2a2d38;
+  --fg:#eceef2;
+  --fg-dim:#9aa0b4;
+  --accent:#ff5d5d;
+  --accent2:#5db1ff;
+  --font-display:'Press Start 2P', 'Courier New', monospace;
+  --font-body:'Space Mono', 'Courier New', monospace;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]){
+    --bg:#f1efe9;
+    --panel:#ffffff;
+    --panel-edge:#dcd8cc;
+    --fg:#1b1b1f;
+    --fg-dim:#5c5a52;
+    --accent:#d6453f;
+    --accent2:#1f6fb2;
+    color-scheme: light;
+  }
+}
+:root[data-theme="light"]{
+  --bg:#f1efe9;
+  --panel:#ffffff;
+  --panel-edge:#dcd8cc;
+  --fg:#1b1b1f;
+  --fg-dim:#5c5a52;
+  --accent:#d6453f;
+  --accent2:#1f6fb2;
+  color-scheme: light;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--fg);
+  font-family:var(--font-body);
+  padding-inline:16px;
+}
+a{color:inherit}
+
+.wrap{
+  max-width:1100px;
+  margin:0 auto;
+  padding-block:48px 80px;
+}
+
+header.hub{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  margin-bottom:56px;
+}
+.eyebrow{
+  font-family:var(--font-display);
+  font-size:10px;
+  letter-spacing:0.14em;
+  color:var(--accent2);
+  text-transform:uppercase;
+}
+h1{
+  font-family:var(--font-display);
+  font-size:clamp(22px, 4vw, 36px);
+  line-height:1.5;
+  margin:0;
+  text-wrap:balance;
+}
+h1 .accent{color:var(--accent)}
+.sub{
+  color:var(--fg-dim);
+  font-size:15px;
+  max-width:60ch;
+  line-height:1.6;
+  margin:0;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));
+  gap:20px;
+}
+
+.cab{
+  background:var(--panel);
+  border:1px solid var(--panel-edge);
+  border-radius:10px;
+  padding:0;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  text-decoration:none;
+  transition:transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+  position:relative;
+}
+.cab:hover, .cab:focus-visible{
+  transform:translateY(-3px);
+  border-color:var(--accent);
+  box-shadow:0 0 0 1px var(--accent), 0 14px 30px -14px rgba(0,0,0,.5);
+  outline:none;
+}
+.cab.placeholder{
+  opacity:.55;
+  pointer-events:none;
+}
+
+.screen{
+  aspect-ratio:4/3;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:var(--font-display);
+  font-size:11px;
+  letter-spacing:.08em;
+  text-align:center;
+  padding:16px;
+  position:relative;
+  color:var(--bg);
+}
+.screen::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:repeating-linear-gradient(
+    to bottom,
+    rgba(0,0,0,.12) 0px,
+    rgba(0,0,0,.12) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  pointer-events:none;
+}
+.screen.sumobots{background:linear-gradient(135deg, var(--accent), var(--accent2));}
+.screen.tetrae{background:linear-gradient(135deg, #4e4376, #2b2b2b);}
+.screen.lumber{background:linear-gradient(135deg, #2f5233, #6b8f3c);}
+.screen.foodwars{background:linear-gradient(135deg, #e0a634, #c0392b);}
+.screen.babylife{background:linear-gradient(135deg, #f2b5c4, #f7dfa5);}
+.screen.burd{background:linear-gradient(135deg, #3aa6a0, #1b3a6b);}
+.screen.housewalkers{background:linear-gradient(135deg, #5c4a72, #26222e);}
+.screen.tbd{background:var(--panel-edge); color:var(--fg-dim);}
+
+.cab-body{
+  padding:16px 18px 20px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  flex:1;
+}
+.cab-title{
+  font-family:var(--font-display);
+  font-size:13px;
+  letter-spacing:.02em;
+  line-height:1.5;
+}
+.cab-desc{
+  color:var(--fg-dim);
+  font-size:13px;
+  line-height:1.55;
+  flex:1;
+}
+.cab-meta{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:4px;
+}
+.tag{
+  font-size:10px;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  color:var(--fg-dim);
+  border:1px solid var(--panel-edge);
+  border-radius:999px;
+  padding:3px 9px;
+}
+.cab-cta{
+  font-size:12px;
+  color:var(--accent2);
+  font-weight:bold;
+  margin-top:6px;
+}
+.cab.placeholder .cab-cta{color:var(--fg-dim); font-weight:normal;}
+
+footer{
+  margin-top:72px;
+  padding-top:24px;
+  border-top:1px solid var(--panel-edge);
+  color:var(--fg-dim);
+  font-size:12px;
+  line-height:1.7;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hub">
+    <span class="eyebrow">Independent games · Updated as they ship</span>
+    <h1><span class="accent">Platypus</span> Games, Inc.</h1>
+    <p class="sub">A small hub for everything we're building — some finished, some mid-development. Each cabinet links out to a playable build. Built one weekend project at a time.</p>
+  </header>
+
+  <div class="grid">
+    <a class="cab" href="#" aria-label="Play Sumobots (placeholder link — swap in your itch.io URL)">
+      <div class="screen sumobots">SUMOBOTS</div>
+      <div class="cab-body">
+        <div class="cab-title">Sumobots</div>
+        <div class="cab-desc">Build and program an autonomous sumo bot, then watch it fight to push opponents out of the ring. Behaviour-box progression, Gauntlet runs, Noodles economy.</div>
+        <div class="cab-meta">
+          <span class="tag">Work in progress</span>
+          <span class="tag">Godot</span>
+        </div>
+        <div class="cab-cta">Play on itch.io →</div>
+      </div>
+    </a>
+
+    <a class="cab" href="https://giovannialtamore00-create.github.io/tetris-game/" aria-label="Play TETRA in your browser">
+      <div class="screen tetrae">TETRA</div>
+      <div class="cab-body">
+        <div class="cab-title">TETRA</div>
+        <div class="cab-desc">Up to four players grow their colour across one shared board. Clear lines to score, cut rivals off, and drop rainbow pieces anywhere. Real-time or turn-based, against bots or friends on one screen. Online play coming soon.</div>
+        <div class="cab-meta">
+          <span class="tag">Beta</span>
+          <span class="tag">Multiplayer</span>
+          <span class="tag">Bots</span>
+        </div>
+        <div class="cab-cta">Play in your browser →</div>
+      </div>
+    </a>
+
+    <a class="cab" href="#" aria-label="Play Lumber Defense (placeholder link — swap in your itch.io URL)">
+      <div class="screen lumber">LUMBER<br>DEFENSE</div>
+      <div class="cab-body">
+        <div class="cab-title">Lumber Defense</div>
+        <div class="cab-desc">[Placeholder blurb — swap in the real pitch.] Currently wrapping up in another session.</div>
+        <div class="cab-meta">
+          <span class="tag">Beta</span>
+          <span class="tag">Finishing now</span>
+        </div>
+        <div class="cab-cta">Play on itch.io →</div>
+      </div>
+    </a>
+
+    <div class="cab placeholder" aria-label="Food Wars — coming soon">
+      <div class="screen foodwars">FOOD<br>WARS</div>
+      <div class="cab-body">
+        <div class="cab-title">Food Wars</div>
+        <div class="cab-desc">A 3v3 top-down MOBA. Pick your dish, fight over the kitchen, don't get eaten.</div>
+        <div class="cab-meta">
+          <span class="tag">Work in progress</span>
+          <span class="tag">Coming soon</span>
+        </div>
+        <div class="cab-cta">Not yet playable</div>
+      </div>
+    </div>
+
+    <div class="cab placeholder" aria-label="Baby Life — coming soon">
+      <div class="screen babylife">BABY<br>LIFE</div>
+      <div class="cab-body">
+        <div class="cab-title">Baby Life</div>
+        <div class="cab-desc">A small open-world tower defense. Explore, grow, and defend the only life you've got.</div>
+        <div class="cab-meta">
+          <span class="tag">Work in progress</span>
+          <span class="tag">Coming soon</span>
+        </div>
+        <div class="cab-cta">Not yet playable</div>
+      </div>
+    </div>
+
+    <div class="cab placeholder" aria-label="Burd — coming soon">
+      <div class="screen burd">BURD</div>
+      <div class="cab-body">
+        <div class="cab-title">Burd</div>
+        <div class="cab-desc">A movement-based mobile game about a very fat bird that eats absolutely everything.</div>
+        <div class="cab-meta">
+          <span class="tag">Coming soon</span>
+        </div>
+        <div class="cab-cta">Not yet playable</div>
+      </div>
+    </div>
+
+    <div class="cab placeholder" aria-label="House Walkers — coming soon">
+      <div class="screen housewalkers">HOUSE<br>WALKERS</div>
+      <div class="cab-body">
+        <div class="cab-title">House Walkers</div>
+        <div class="cab-desc">An MMORPG where you play as animated objects, living out their lives inside a dark house.</div>
+        <div class="cab-meta">
+          <span class="tag">Coming soon</span>
+        </div>
+        <div class="cab-cta">Not yet playable</div>
+      </div>
+    </div>
+
+    <div class="cab placeholder" aria-hidden="true">
+      <div class="screen tbd">NEXT UP</div>
+      <div class="cab-body">
+        <div class="cab-title">Untitled project</div>
+        <div class="cab-desc">Whatever gets built next lands here. This slot updates automatically as new games ship.</div>
+        <div class="cab-meta">
+          <span class="tag">Coming soon</span>
+        </div>
+        <div class="cab-cta">Not yet playable</div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    Replace the <code>href="#"</code> placeholders with real itch.io links once each game is uploaded. Add a new <code>.cab</code> card for every future release — copy one of the existing cards and swap its content, screen class, and link.
+  </footer>
+</div>
+</body>
+</html>
