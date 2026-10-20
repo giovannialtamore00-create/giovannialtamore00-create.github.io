@@ -52,7 +52,7 @@ body{
 a{color:inherit}
 
 .wrap{
-  max-width:1100px;
+  max-width:1400px;
   margin:0 auto;
   padding-block:48px 80px;
 }
@@ -88,8 +88,9 @@ h1 .accent{color:var(--accent)}
 
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns:repeat(auto-fill, minmax(220px, 1fr));
   gap:20px;
+  align-items:start;
 }
 
 .cab{
@@ -100,20 +101,16 @@ h1 .accent{color:var(--accent)}
   overflow:hidden;
   display:flex;
   flex-direction:column;
-  text-decoration:none;
   transition:transform .15s ease, border-color .15s ease, box-shadow .15s ease;
   position:relative;
 }
-.cab:hover, .cab:focus-visible{
+.cab:not(.placeholder):hover, .cab:not(.placeholder):focus-within{
   transform:translateY(-3px);
   border-color:var(--accent);
   box-shadow:0 0 0 1px var(--accent), 0 14px 30px -14px rgba(0,0,0,.5);
-  outline:none;
 }
-.cab.placeholder{
-  opacity:.55;
-  pointer-events:none;
-}
+.cab a{text-decoration:none; outline:none;}
+.cab.placeholder .screen, .cab.placeholder .cab-title{opacity:.55;}
 
 .screen{
   aspect-ratio:4/3;
@@ -166,19 +163,51 @@ h1 .accent{color:var(--accent)}
 .screen.alphabullet img{width:100%; height:100%; object-fit:cover; display:block;}
 .screen.tbd{background:var(--panel-edge); color:var(--fg-dim);}
 
-.cab-body{
-  padding:16px 18px 20px;
+.cab-head{
   display:flex;
-  flex-direction:column;
+  align-items:center;
   gap:8px;
-  flex:1;
+  padding:12px 10px 12px 16px;
+  min-height:64px;
 }
 .cab-title{
   font-family:var(--font-display);
-  font-size:13px;
+  font-size:12px;
   letter-spacing:.02em;
   line-height:1.5;
+  flex:1;
+  min-width:0;
 }
+.cab-head .cab-credit{
+  flex:0 1 auto;
+  max-width:45%;
+  text-align:right;
+  font-size:10px;
+  line-height:1.4;
+}
+.cab-toggle{
+  flex:none;
+  width:28px;
+  height:28px;
+  display:grid;
+  place-items:center;
+  background:none;
+  border:1px solid var(--panel-edge);
+  border-radius:6px;
+  color:var(--fg-dim);
+  font-size:12px;
+  cursor:pointer;
+  transition:transform .15s ease, color .15s ease, border-color .15s ease;
+}
+.cab-toggle:hover, .cab-toggle:focus-visible{color:var(--fg); border-color:var(--accent2); outline:none;}
+.cab-toggle[aria-expanded="true"]{transform:rotate(180deg);}
+.cab-details{
+  padding:0 16px 18px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.cab-details[hidden]{display:none;}
 .cab-credit{
   font-size:11px;
   letter-spacing:.04em;
@@ -188,13 +217,14 @@ h1 .accent{color:var(--accent)}
   color:var(--fg-dim);
   font-size:13px;
   line-height:1.55;
-  flex:1;
 }
-.cab-meta{
+.cab-tags{
   display:flex;
-  gap:8px;
+  gap:6px;
   flex-wrap:wrap;
-  margin-top:4px;
+  align-content:flex-start;
+  padding:0 16px 14px;
+  min-height:66px;
 }
 .tag{
   font-size:10px;
@@ -225,6 +255,56 @@ h1 .accent{color:var(--accent)}
   margin:0 0 20px;
 }
 
+/* 3 columns of my games + 1 collab column, all the same width */
+.layout{
+  display:grid;
+  grid-template-columns:repeat(4, minmax(0, 1fr));
+  column-gap:28px;
+  row-gap:0;
+  align-items:start;
+}
+.layout main{
+  grid-column:1 / 4;
+  grid-row:2;
+  display:grid;
+  grid-template-columns:subgrid;
+}
+.layout main .grid{
+  grid-column:1 / -1;
+  grid-template-columns:subgrid;
+  gap:28px;
+}
+.collab-head{grid-column:4; grid-row:1;}
+.collab-head .section-title{margin-top:0;}
+.guest-panel{
+  grid-column:4;
+  grid-row:2;
+  position:relative;
+  isolation:isolate;
+}
+.guest-panel::before{
+  content:"";
+  position:absolute;
+  inset:-12px;
+  background:var(--panel);
+  border:1px solid var(--panel-edge);
+  border-radius:14px;
+  z-index:-1;
+}
+.guest-list{
+  display:flex;
+  flex-direction:column;
+  gap:28px;
+}
+.guest-list .cab{background:var(--bg);}
+@media (max-width: 700px){
+  .layout{display:block;}
+  .layout main{display:block;}
+  .layout main .grid{grid-template-columns:repeat(auto-fill, minmax(220px, 1fr));}
+  .collab-head{margin-top:56px;}
+  .guest-list{display:grid; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr));}
+}
+
 footer{
   margin-top:72px;
   padding-top:24px;
@@ -243,213 +323,278 @@ footer{
     <p class="sub">A small hub for everything we're building — some finished, some mid-development. Each cabinet links out to a playable build. Built one weekend project at a time.</p>
   </header>
 
+  <div class="layout">
+  <main>
   <div class="grid">
-    <a class="cab" href="sumobots/" aria-label="Play Sumobots">
-      <div class="screen sumobots"><img src="sumobots-logo.png" alt="Sumobots logo"></div>
-      <div class="cab-body">
-        <div class="cab-title">Sumobots</div>
+    <div class="cab">
+      <a href="sumobots/" aria-label="Play Sumobots"><div class="screen sumobots"><img src="sumobots-logo.png" alt="Sumobots logo"></div></a>
+      <div class="cab-head">
+        <a class="cab-title" href="sumobots/">Sumobots</a>
+        <button class="cab-toggle" type="button" aria-expanded="false" aria-label="Show details">▾</button>
+      </div>
+      <div class="cab-tags">
+        <span class="tag">Work in progress</span>
+        <span class="tag">Rogue-like</span>
+        <span class="tag">Bot fight simulator</span>
+      </div>
+      <div class="cab-details" hidden>
         <div class="cab-desc">Build and program an autonomous sumo bot, then watch it fight to push opponents out of the ring. Behaviour-box progression, Gauntlet runs, Noodles economy.</div>
-        <div class="cab-meta">
-          <span class="tag">Work in progress</span>
-          <span class="tag">Godot</span>
-        </div>
-        <div class="cab-cta">Play on itch.io →</div>
+        <a class="cab-cta" href="sumobots/">Play on itch.io →</a>
       </div>
-    </a>
+    </div>
 
-    <a class="cab" href="https://giovannialtamore00-create.github.io/tetris-game/" aria-label="Play TETRA in your browser">
-      <div class="screen tetrae"><img src="tetra-logo.svg" alt="TETRA logo"></div>
-      <div class="cab-body">
-        <div class="cab-title">TETRA</div>
+    <div class="cab">
+      <a href="https://giovannialtamore00-create.github.io/tetris-game/" aria-label="Play TETRA in your browser"><div class="screen tetrae"><img src="tetra-logo.svg" alt="TETRA logo"></div></a>
+      <div class="cab-head">
+        <a class="cab-title" href="https://giovannialtamore00-create.github.io/tetris-game/">TETRA</a>
+        <button class="cab-toggle" type="button" aria-expanded="false" aria-label="Show details">▾</button>
+      </div>
+      <div class="cab-tags">
+        <span class="tag">Beta</span>
+        <span class="tag">2-4 online players</span>
+        <span class="tag">Real-time</span>
+        <span class="tag">Fast paced</span>
+      </div>
+      <div class="cab-details" hidden>
         <div class="cab-desc">Up to four players grow their colour across one shared board. Clear lines to score, cut rivals off, and drop rainbow pieces anywhere. Real-time or turn-based: play bots or friends on one screen, or online with friends, peer to peer.</div>
-        <div class="cab-meta">
-          <span class="tag">Beta</span>
-          <span class="tag">Multiplayer</span>
-          <span class="tag">Bots</span>
-        </div>
-        <div class="cab-cta">Play in your browser →</div>
+        <a class="cab-cta" href="https://giovannialtamore00-create.github.io/tetris-game/">Play in your browser →</a>
       </div>
-    </a>
-    <a class="cab" href="https://giovannialtamore00-create.github.io/alphabullet/" aria-label="Play Alphabullet in your browser">
-      <div class="screen alphabullet"><img src="alphabullet-logo.png" alt="Alphabullet logo"></div>
-      <div class="cab-body">
-        <div class="cab-title">Alphabullet</div>
+    </div>
+
+    <div class="cab">
+      <a href="https://giovannialtamore00-create.github.io/alphabullet/" aria-label="Play Alphabullet in your browser"><div class="screen alphabullet"><img src="alphabullet-logo.png" alt="Alphabullet logo"></div></a>
+      <div class="cab-head">
+        <a class="cab-title" href="https://giovannialtamore00-create.github.io/alphabullet/">Alphabullet</a>
+        <button class="cab-toggle" type="button" aria-expanded="false" aria-label="Show details">▾</button>
+      </div>
+      <div class="cab-tags">
+        <span class="tag">Bullet-hell</span>
+        <span class="tag">Multiplayer</span>
+        <span class="tag">Early access</span>
+      </div>
+      <div class="cab-details" hidden>
         <div class="cab-desc">A top-down bullet-hell arena where you are a letter and its shape is your gun: bullets fly from the ends of every stroke. Collect letters, level them up, go CAPITAL, and be the last glyph standing. Play solo vs bots or online with friends, peer to peer.</div>
-        <div class="cab-meta">
-          <span class="tag">Beta</span>
-          <span class="tag">Online P2P</span>
-          <span class="tag">Bots</span>
-        </div>
-        <div class="cab-cta">Play in your browser →</div>
+        <a class="cab-cta" href="https://giovannialtamore00-create.github.io/alphabullet/">Play in your browser →</a>
       </div>
-    </a>
+    </div>
 
-    <a class="cab" href="https://defcon-survivors.onrender.com/" aria-label="Play DEFCON Survivors in your browser">
-      <div class="screen abort"><img src="defcon-survivors-logo.svg" alt="DEFCON Survivors logo"></div>
-      <div class="cab-body">
-        <div class="cab-title">DEFCON Survivors</div>
-        <div class="cab-desc">A 6-player social deduction game for a voice call. Nukes are inbound: find the launch code through private chats, spot the corrupt teammate, and enter it before the DEFCON timer runs out. Bots fill empty seats. English and Italian. The first visit may take up to a minute while the server wakes up.</div>
-        <div class="cab-meta">
-          <span class="tag">Prototype</span>
-          <span class="tag">Online multiplayer</span>
-          <span class="tag">Bots</span>
-        </div>
-        <div class="cab-cta">Play in your browser →</div>
+    <div class="cab">
+      <a href="https://the-train.onrender.com/" aria-label="Play The Train in your browser"><div class="screen train"><img src="the-train-logo.svg" alt="The Train logo"></div></a>
+      <div class="cab-head">
+        <a class="cab-title" href="https://the-train.onrender.com/">The Train</a>
+        <button class="cab-toggle" type="button" aria-expanded="false" aria-label="Show details">▾</button>
       </div>
-    </a>
-
-    <a class="cab" href="https://the-train.onrender.com/" aria-label="Play The Train in your browser">
-      <div class="screen train"><img src="the-train-logo.svg" alt="The Train logo"></div>
-      <div class="cab-body">
-        <div class="cab-title">The Train</div>
+      <div class="cab-tags">
+        <span class="tag">Survival</span>
+        <span class="tag">Adventure</span>
+        <span class="tag">Mass multiplayer</span>
+        <span class="tag">Open world</span>
+      </div>
+      <div class="cab-details" hidden>
         <div class="cab-desc">A first-person multiplayer survival game in an empty 80s subway. Ride the train, get off at the station, and keep the grapplers off your head. One tab per player; the host presses Ready. The first visit may take up to a minute while the server wakes up.</div>
-        <div class="cab-meta">
-          <span class="tag">Prototype</span>
-          <span class="tag">Online multiplayer</span>
-        </div>
-        <div class="cab-cta">Play in your browser →</div>
+        <a class="cab-cta" href="https://the-train.onrender.com/">Play in your browser →</a>
       </div>
-    </a>
+    </div>
 
-    <a class="cab" href="https://giovannialtamore00-create.github.io/yappemon/" aria-label="Play YAPPEMON in your browser">
-      <div class="screen yappemon"><img src="yappemon-logo.png" alt="YAPPEMON logo"></div>
-      <div class="cab-body">
-        <div class="cab-title">YAPPEMON</div>
+    <div class="cab">
+      <a href="https://giovannialtamore00-create.github.io/yappemon/" aria-label="Play YAPPEMON in your browser"><div class="screen yappemon"><img src="yappemon-logo.png" alt="YAPPEMON logo"></div></a>
+      <div class="cab-head">
+        <a class="cab-title" href="https://giovannialtamore00-create.github.io/yappemon/">YAPPEMON</a>
+        <button class="cab-toggle" type="button" aria-expanded="false" aria-label="Show details">▾</button>
+      </div>
+      <div class="cab-tags">
+        <span class="tag">Beta</span>
+        <span class="tag">1v1</span>
+        <span class="tag">Voice commands</span>
+      </div>
+      <div class="cab-details" hidden>
         <div class="cab-desc">A 1v1 3D creature battler you control with your voice, in English or Italian. Shout your moves, dodge, evolve, and win best of 3. Play vs a bot or online with a friend, peer to peer. Needs a microphone; works best in Chrome.</div>
-        <div class="cab-meta">
-          <span class="tag">Beta</span>
-          <span class="tag">Online P2P</span>
-          <span class="tag">Voice</span>
-        </div>
-        <div class="cab-cta">Play in your browser →</div>
+        <a class="cab-cta" href="https://giovannialtamore00-create.github.io/yappemon/">Play in your browser →</a>
       </div>
-    </a>
+    </div>
 
-    <a class="cab" href="https://giovannialtamore00-create.github.io/lumber-defense/" aria-label="Play Lumber Defense in your browser">
-      <div class="screen lumber"><img src="lumber-defense-logo.png" alt="Lumber Defense logo"></div>
-      <div class="cab-body">
-        <div class="cab-title">Lumber Defense</div>
+    <div class="cab">
+      <a href="https://giovannialtamore00-create.github.io/lumber-defense/" aria-label="Play Lumber Defense in your browser"><div class="screen lumber"><img src="lumber-defense-logo.png" alt="Lumber Defense logo"></div></a>
+      <div class="cab-head">
+        <a class="cab-title" href="https://giovannialtamore00-create.github.io/lumber-defense/">Lumber Defense</a>
+        <button class="cab-toggle" type="button" aria-expanded="false" aria-label="Show details">▾</button>
+      </div>
+      <div class="cab-tags">
+        <span class="tag">In progress</span>
+        <span class="tag">Real-time strategy</span>
+        <span class="tag">Tower defense</span>
+      </div>
+      <div class="cab-details" hidden>
         <div class="cab-desc">A territory game for 2–4 players. Chop trees, float the logs down the river to your factory, craft outposts and catapults, and push your rivals off the map. Play solo or online with friends, peer to peer.</div>
-        <div class="cab-meta">
-          <span class="tag">Beta</span>
-          <span class="tag">Online P2P</span>
-        </div>
-        <div class="cab-cta">Play in your browser →</div>
+        <a class="cab-cta" href="https://giovannialtamore00-create.github.io/lumber-defense/">Play in your browser →</a>
       </div>
-    </a>
-    <a class="cab" href="https://giovannialtamore00-create.github.io/sigaretta/" aria-label="Play Sigaretta in your browser">
-      <div class="screen sigaretta"><img src="sigaretta-logo.svg" alt="Sigaretta logo"></div>
-      <div class="cab-body">
-        <div class="cab-title">Sigaretta</div>
-        <div class="cab-desc">A collective writing party game in Italian, made for phones. Everyone starts a story, the sheet passes to the next player, and nobody sees what came before. 4 to 10 players, bots included.</div>
-        <div class="cab-meta">
-          <span class="tag">Prototype</span>
-          <span class="tag">Online multiplayer</span>
-          <span class="tag">Bots</span>
-        </div>
-        <div class="cab-cta">Play in your browser →</div>
-      </div>
-    </a>
+    </div>
 
     <div class="cab placeholder" aria-label="Food Wars — coming soon">
       <div class="screen foodwars">FOOD<br>WARS</div>
-      <div class="cab-body">
+      <div class="cab-head">
         <div class="cab-title">Food Wars</div>
+        <button class="cab-toggle" type="button" aria-expanded="false" aria-label="Show details">▾</button>
+      </div>
+      <div class="cab-tags"></div>
+      <div class="cab-details" hidden>
         <div class="cab-desc">A 3v3 top-down MOBA. Pick your dish, fight over the kitchen, don't get eaten.</div>
-        <div class="cab-meta">
-          <span class="tag">Work in progress</span>
-          <span class="tag">Coming soon</span>
-        </div>
         <div class="cab-cta">Not yet playable</div>
       </div>
     </div>
 
     <div class="cab placeholder" aria-label="Baby Life — coming soon">
       <div class="screen babylife">BABY<br>LIFE</div>
-      <div class="cab-body">
+      <div class="cab-head">
         <div class="cab-title">Baby Life</div>
+        <button class="cab-toggle" type="button" aria-expanded="false" aria-label="Show details">▾</button>
+      </div>
+      <div class="cab-tags"></div>
+      <div class="cab-details" hidden>
         <div class="cab-desc">A small open-world tower defense. Explore, grow, and defend the only life you've got.</div>
-        <div class="cab-meta">
-          <span class="tag">Work in progress</span>
-          <span class="tag">Coming soon</span>
-        </div>
         <div class="cab-cta">Not yet playable</div>
       </div>
     </div>
 
     <div class="cab placeholder" aria-label="Burd — coming soon">
       <div class="screen burd">BURD</div>
-      <div class="cab-body">
+      <div class="cab-head">
         <div class="cab-title">Burd</div>
+        <button class="cab-toggle" type="button" aria-expanded="false" aria-label="Show details">▾</button>
+      </div>
+      <div class="cab-tags"></div>
+      <div class="cab-details" hidden>
         <div class="cab-desc">A movement-based mobile game about a very fat bird that eats absolutely everything.</div>
-        <div class="cab-meta">
-          <span class="tag">Coming soon</span>
-        </div>
         <div class="cab-cta">Not yet playable</div>
       </div>
     </div>
 
     <div class="cab placeholder" aria-label="House Walkers — coming soon">
       <div class="screen housewalkers">HOUSE<br>WALKERS</div>
-      <div class="cab-body">
+      <div class="cab-head">
         <div class="cab-title">House Walkers</div>
+        <button class="cab-toggle" type="button" aria-expanded="false" aria-label="Show details">▾</button>
+      </div>
+      <div class="cab-tags"></div>
+      <div class="cab-details" hidden>
         <div class="cab-desc">An MMORPG where you play as animated objects, living out their lives inside a dark house.</div>
-        <div class="cab-meta">
-          <span class="tag">Coming soon</span>
-        </div>
         <div class="cab-cta">Not yet playable</div>
       </div>
     </div>
 
-    <div class="cab placeholder" aria-hidden="true">
+    <div class="cab placeholder" aria-label="Untitled project — coming soon">
       <div class="screen tbd">NEXT UP</div>
-      <div class="cab-body">
+      <div class="cab-head">
         <div class="cab-title">Untitled project</div>
+        <button class="cab-toggle" type="button" aria-expanded="false" aria-label="Show details">▾</button>
+      </div>
+      <div class="cab-tags"></div>
+      <div class="cab-details" hidden>
         <div class="cab-desc">Whatever gets built next lands here. This slot updates automatically as new games ship.</div>
-        <div class="cab-meta">
-          <span class="tag">Coming soon</span>
-        </div>
         <div class="cab-cta">Not yet playable</div>
       </div>
     </div>
   </div>
+  </main>
 
-  <h2 class="section-title">Guest</h2>
-  <p class="section-sub">Games by friends, hosted here.</p>
+  <div class="collab-head">
+    <h2 class="section-title">COLLab</h2>
+    <p class="section-sub">Games by friends, hosted here.</p>
+  </div>
 
-  <div class="grid">
-    <a class="cab" href="https://how-to-kill-mafia.onrender.com/" aria-label="Play How to Kill: Mafia in your browser">
-      <div class="screen mafia">HOW TO KILL:<br>MAFIA</div>
-      <div class="cab-body">
-        <div class="cab-title">How to Kill: Mafia</div>
-        <div class="cab-credit">Made by EDELIAN</div>
-        <div class="cab-desc">An online card game for 2–4 players. Build a squad of heroes, take down mafia bosses with a bounty on their heads, and use your faction's bonuses to get there first. The first visit may take up to a minute while the server wakes up.</div>
-        <div class="cab-meta">
-          <span class="tag">Prototype</span>
-          <span class="tag">Online multiplayer</span>
-          <span class="tag">Bots</span>
-        </div>
-        <div class="cab-cta">Play in your browser →</div>
+  <aside class="guest-panel" aria-label="Collab games">
+  <div class="guest-list">
+    <div class="cab">
+      <a href="https://giovannialtamore00-create.github.io/drunk/" aria-label="Play DRUNK in your browser"><div class="screen drunk"><img src="drunk-logo.svg" alt="DRUNK logo"></div></a>
+      <div class="cab-head">
+        <a class="cab-title" href="https://giovannialtamore00-create.github.io/drunk/">DRUNK</a>
+        <span class="cab-credit">Made by EDELIAN</span>
+        <button class="cab-toggle" type="button" aria-expanded="false" aria-label="Show details">▾</button>
       </div>
-    </a>
-    <a class="cab" href="https://giovannialtamore00-create.github.io/drunk/" aria-label="Play DRUNK in your browser">
-      <div class="screen drunk"><img src="drunk-logo.svg" alt="DRUNK logo"></div>
-      <div class="cab-body">
-        <div class="cab-title">DRUNK</div>
-        <div class="cab-credit">Made by EDELIAN</div>
+      <div class="cab-tags">
+        <span class="tag">Demo</span>
+        <span class="tag">Single player</span>
+        <span class="tag">Pixel art</span>
+        <span class="tag">Adventure</span>
+        <span class="tag">Satirical</span>
+      </div>
+      <div class="cab-details" hidden>
         <div class="cab-desc">A pixel-art adventure about a tramp on a street at night. Walk the street, ask passers-by for change, and see how the evening ends. Move with W A S D, choose with the mouse.</div>
-        <div class="cab-meta">
-          <span class="tag">DEMO</span>
-          <span class="tag">Single player</span>
-        </div>
-        <div class="cab-cta">Play in your browser →</div>
+        <a class="cab-cta" href="https://giovannialtamore00-create.github.io/drunk/">Play in your browser →</a>
       </div>
-    </a>
+    </div>
+
+    <div class="cab">
+      <a href="https://how-to-kill-mafia.onrender.com/" aria-label="Play How to Kill: Mafia in your browser"><div class="screen mafia">HOW TO KILL:<br>MAFIA</div></a>
+      <div class="cab-head">
+        <a class="cab-title" href="https://how-to-kill-mafia.onrender.com/">How to Kill: Mafia</a>
+        <span class="cab-credit">Made by EDELIAN</span>
+        <button class="cab-toggle" type="button" aria-expanded="false" aria-label="Show details">▾</button>
+      </div>
+      <div class="cab-tags">
+        <span class="tag">Beta</span>
+        <span class="tag">Tabletop card game</span>
+        <span class="tag">Multiplayer</span>
+      </div>
+      <div class="cab-details" hidden>
+        <div class="cab-desc">An online card game for 2–4 players. Build a squad of heroes, take down mafia bosses with a bounty on their heads, and use your faction's bonuses to get there first. The first visit may take up to a minute while the server wakes up.</div>
+        <a class="cab-cta" href="https://how-to-kill-mafia.onrender.com/">Play in your browser →</a>
+      </div>
+    </div>
+
+    <div class="cab">
+      <a href="https://defcon-survivors.onrender.com/" aria-label="Play DEFCON Survivors in your browser"><div class="screen abort"><img src="defcon-survivors-logo.svg" alt="DEFCON Survivors logo"></div></a>
+      <div class="cab-head">
+        <a class="cab-title" href="https://defcon-survivors.onrender.com/">DEFCON Survivors</a>
+        <span class="cab-credit">Original Idea by Davide Salvaggio</span>
+        <button class="cab-toggle" type="button" aria-expanded="false" aria-label="Show details">▾</button>
+      </div>
+      <div class="cab-tags">
+        <span class="tag">Beta</span>
+        <span class="tag">Social deduction</span>
+        <span class="tag">Online</span>
+      </div>
+      <div class="cab-details" hidden>
+        <div class="cab-desc">A 6-player social deduction game for a voice call. Nukes are inbound: find the launch code through private chats, spot the corrupt teammate, and enter it before the DEFCON timer runs out. Bots fill empty seats. English and Italian. The first visit may take up to a minute while the server wakes up.</div>
+        <a class="cab-cta" href="https://defcon-survivors.onrender.com/">Play in your browser →</a>
+      </div>
+    </div>
+
+    <div class="cab">
+      <a href="https://giovannialtamore00-create.github.io/sigaretta/" aria-label="Play Sigaretta in your browser"><div class="screen sigaretta"><img src="sigaretta-logo.svg" alt="Sigaretta logo"></div></a>
+      <div class="cab-head">
+        <a class="cab-title" href="https://giovannialtamore00-create.github.io/sigaretta/">Sigaretta</a>
+        <span class="cab-credit">Made with Edelian</span>
+        <button class="cab-toggle" type="button" aria-expanded="false" aria-label="Show details">▾</button>
+      </div>
+      <div class="cab-tags">
+        <span class="tag">Beta</span>
+        <span class="tag">Party game</span>
+        <span class="tag">Multiplayer</span>
+      </div>
+      <div class="cab-details" hidden>
+        <div class="cab-desc">A collective writing party game in Italian, made for phones. Everyone starts a story, the sheet passes to the next player, and nobody sees what came before. 4 to 10 players, bots included.</div>
+        <a class="cab-cta" href="https://giovannialtamore00-create.github.io/sigaretta/">Play in your browser →</a>
+      </div>
+    </div>
+  </div>
+  </aside>
   </div>
 
   <footer>
     Replace the <code>href="#"</code> placeholders with real itch.io links once each game is uploaded. Add a new <code>.cab</code> card for every future release — copy one of the existing cards and swap its content, screen class, and link.
   </footer>
 </div>
+<script>
+document.addEventListener('click', e => {
+  const btn = e.target.closest('.cab-toggle');
+  if (!btn) return;
+  const details = btn.closest('.cab').querySelector('.cab-details');
+  const open = btn.getAttribute('aria-expanded') !== 'true';
+  btn.setAttribute('aria-expanded', open);
+  btn.setAttribute('aria-label', open ? 'Hide details' : 'Show details');
+  details.hidden = !open;
+});
+</script>
 </body>
 </html>
