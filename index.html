@@ -138,6 +138,8 @@ h1 .accent{color:var(--accent)}
   );
   pointer-events:none;
 }
+.screen.bubus{background:#16181d; padding:0;}
+.screen.bubus img{width:100%; height:100%; object-fit:cover; display:block;}
 .screen.sumobots{background:#eceeef; padding:0;}
 .screen.sumobots img{width:100%; height:100%; object-fit:cover; display:block;}
 .screen.tetrae{background:#15171c; padding:0;}
@@ -326,6 +328,24 @@ footer{
   <div class="layout">
   <main>
   <div class="grid">
+    <div class="cab">
+      <a href="bu-bus/" aria-label="Play BU BUS in your browser"><div class="screen bubus"><img src="bu-bus-logo.svg" alt="BU BUS logo"></div></a>
+      <div class="cab-head">
+        <a class="cab-title" href="bu-bus/">BU BUS</a>
+        <button class="cab-toggle" type="button" aria-expanded="false" aria-label="Show details">▾</button>
+      </div>
+      <div class="cab-tags">
+        <span class="tag">Work in progress</span>
+        <span class="tag">1-4 online players</span>
+        <span class="tag">Room codes</span>
+        <span class="tag">Zombies</span>
+      </div>
+      <div class="cab-details" hidden>
+        <div class="cab-desc">Crew a burger bus through a zombie-filled Milan with up to three friends. Host a game, share the room code, deliver burgers and survive the horde.</div>
+        <a class="cab-cta" href="bu-bus/">Play in your browser →</a>
+      </div>
+    </div>
+
     <div class="cab">
       <a href="sumobots/" aria-label="Play Sumobots"><div class="screen sumobots"><img src="sumobots-logo.png" alt="Sumobots logo"></div></a>
       <div class="cab-head">
