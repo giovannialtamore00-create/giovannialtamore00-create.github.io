@@ -30,3 +30,24 @@ Which part of each file the game plays is in `REAL_FILES` (src/client/audio.js).
 | counter-bell-2531 | Counter Bell #3 |
 | rain-1289 | Rain on concrete |
 | drone-3548 | Drone #4 |
+
+## Radio songs (public/sounds/radio, mp3)
+
+Downloaded 2026-11-16 (file names keep the artist and track number; source site not recorded). Licence not yet checked: confirm before sharing the game publicly.
+Station 99.9 EDM: kulakovka "dark synthwave" 624644, alex-morgan "heavy dubstep bass drop edm" 530942, kulakovka "acid edm" 281151.
+Station 66.6 METAL: strawberry_candy "sport intense metal fast and strong" 622134, alexgrohl "metal dark matter" 111451, alexgrohl "void construct epic metal" 366833.
+
+## Giant footsteps (public/sounds, mp3)
+
+giant-steps-352771.mp3: universfield "heavy walking footsteps" 352771, downloaded 2026-11-16 (source site not recorded). Licence not yet checked: confirm before sharing the game publicly.
+
+Also from Downloads, 2026-11-16 (licence not yet checked): glitch-49142 (freesound_community), radio-gibberish-33601 (freesound_community foley radio gibberish), radio-tuning-7150 (freesound_community tuning radio).
+reverse-beep-54774.mp3: freesound_community "drive in reverse beep alert" 54774, downloaded 2026-11-16 (source site not recorded). Licence not yet checked: confirm before sharing the game publicly.
+
+zenowaves-radio-static-break-627673.mp3: zenowaves "radio static break" 627673, downloaded 2026-11-16 (source site not recorded). Used as one of the zombie sounds. Licence not yet checked.
+- yarzur_ofc-sfx37-static-noise-loop-534295.mp3: static noise loop near the Monolith (Downloads, 2026-11-16)
+- dragon-studio-buzzing-static-463194.mp3: Dragon Studio "buzzing static" 463194 (Downloads, 2026-11-16). A 0.35 s cut plays when a zombie hits you. Licence not yet checked.
+
+- freesound_community-chugging-diesel-bus-and-rev-23478.mp3 and freesound_community-bus_engine_near_heating-32548.mp3: looped under the bus engine at 20% intensity (Downloads, 2026-11-16). Licence not yet checked.
+
+radio/citta.mp3: Citta, the user's own song from the DRUNK game (platypus-site/drunk/audio/citta.mp3), radio station 1.
