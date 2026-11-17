@@ -51,3 +51,6 @@ zenowaves-radio-static-break-627673.mp3: zenowaves "radio static break" 627673, 
 - freesound_community-chugging-diesel-bus-and-rev-23478.mp3 and freesound_community-bus_engine_near_heating-32548.mp3: looped under the bus engine at 20% intensity (Downloads, 2026-11-16). Licence not yet checked.
 
 radio/citta.mp3: Citta, the user's own song from the DRUNK game (platypus-site/drunk/audio/citta.mp3), radio station 1.
+
+radio/lofi-1-late-bus.wav and radio/lofi-2-neon-espresso.wav: lo-fi hip hop tracks synthesised from scratch by tools/render-radio-lofi.mjs (no samples, ours), radio station 1 after Citta.
+radio/lofi-3-sunny-side-delivery.wav and radio/lofi-4-burger-rush.wav: upbeat versions (108 and 100 BPM), synthesised by tools/render-radio-lofi.mjs, radio station 1.
