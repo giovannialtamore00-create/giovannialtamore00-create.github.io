@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-label="Anima logo">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="45%" r="70%">
+      <stop offset="0" stop-color="#3a2a22"/>
+      <stop offset="1" stop-color="#110d0b"/>
+    </radialGradient>
+    <filter id="pencil"><feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg)"/>
+  <!-- The game's menu logo (ANIMA drawn between two guide lines, leaning like the pencil sketches). -->
+  <svg x="30" y="80" width="340" height="115" viewBox="-47.26 -8 343.76 116">
+    <g filter="url(#pencil)" fill="none" stroke="#ece2cf" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M-47.26 100 L288 100 M-10.4 0 L296.5 0" stroke-width="1" opacity=".45"/>
+      <g transform="skewX(-12) translate(21.26 0)" stroke-width="4">
+        <path d="M0 100 L30 0 L60 100 M14 58 L30 58 M30 100 L30 0 M60 100 L60 0 M70 0 L98 0 M84 0 L84 100 M70 100 L98 100 M108 100 L108 0 L138 60 L168 0 L168 100 M168 50 L196 50 M196 100 L196 0 M196 0 L262 100 M196 72 L244 72"/>
+      </g>
+    </g>
+  </svg>
+  <text x="200" y="245" text-anchor="middle" font-family="Georgia, serif" font-size="15" letter-spacing="4" fill="#e3a676">1V1 CARD GAME</text>
+</svg>
